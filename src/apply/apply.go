@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/spicetify/cli/src/utils"
+	"github.com/astrify/cli/src/utils"
 )
 
 // Flag enables/disables additional feature
@@ -55,8 +55,8 @@ func AdditionalOptions(appsFolderPath string, flags Flag) {
 				filesToModified[snapshotPath] = append(filesToModified[snapshotPath], insertCustomAppChunkMap)
 			}
 		} else {
-			utils.PrintError("Spotify version mismatch with Spicetify. Please report it on our github repository.")
-			utils.PrintInfo("Spicetify might have been updated for this version already. Please run `spicetify update` to check for a new version.")
+			utils.PrintError("Spotify version mismatch with Astrify. Please report it on our github repository.")
+			utils.PrintInfo("Astrify might have been updated for this version already. Please run `astrify update` to check for a new version.")
 			utils.PrintInfo("If one isn't available yet, please wait for an update to be released or downgrade Spotify to a supported version.")
 		}
 	}
@@ -170,15 +170,20 @@ func htmlMod(htmlPath string, flags Flag) {
 		}
 
 		fmt.Fprintf(&helperHTML, `<script>
-			Spicetify.Config={};
-			Spicetify.Config["version"]="%s";
-			Spicetify.Config["current_theme"]="%s";
-			Spicetify.Config["color_scheme"]="%s";
-			Spicetify.Config["extensions"] = [%s];
-			Spicetify.Config["custom_apps"] = [%s];
-			Spicetify.Config["check_spicetify_update"]=%v;
+			window.Astrify = window.Astrify || {};
+			window.Spicetify = window.Spicetify || window.Astrify;
+			Spicetify.Config = Astrify.Config = {};
+			Astrify.Config["version"]="%s";
+			Astrify.Config["current_theme"]="%s";
+			Astrify.Config["color_scheme"]="%s";
+			Astrify.Config["extensions"] = [%s];
+			Astrify.Config["custom_apps"] = [%s];
+			Astrify.Config["check_astrify_update"]=false;
+			Astrify.Config["check_spicetify_update"]=false;
+			Astrify.Config["developer"]="Varq";
+			Astrify.Config["discord"]="http://discord.gg/astria";
 		</script>
-		`, flags.SpicetifyVer, flags.CurrentTheme, flags.ColorScheme, extList.String(), customAppList.String(), flags.CheckSpicetifyUpdate)
+		`, flags.SpicetifyVer, flags.CurrentTheme, flags.ColorScheme, extList.String(), customAppList.String())
 	}
 
 	for _, v := range flags.Extension {
@@ -400,8 +405,8 @@ func insertCustomApp(jsPath string, flags Flag) {
 			customAppElementPatterns())
 
 		if (len(reactSymbs) < 3) || (len(eleSymbs) < 3) {
-			utils.PrintError("Spotify version mismatch with Spicetify. Please report it on our github repository.")
-			utils.PrintInfo("Spicetify might have been updated for this version already. Please run `spicetify update` to check for a new version.")
+			utils.PrintError("Spotify version mismatch with Astrify. Please report it on our github repository.")
+			utils.PrintInfo("Astrify might have been updated for this version already. Please run `astrify update` to check for a new version.")
 			utils.PrintInfo("If one isn't available yet, please wait for an update to be released or downgrade Spotify to a supported version.")
 			return content
 		}
@@ -624,12 +629,15 @@ func insertVersionInfo(jsPath string, flags Flag) {
 			`(\w+(?:\(\))?\.createElement|\([\w$\.,]+\))\([\w\."]+,[\w{}():,]+\.containerVersion\}?\),`,
 			func(submatches ...string) string {
 				return fmt.Sprintf(`%s%s("details",{children: [
-					%s("summary",{children: "Spicetify v" + Spicetify.Config.version}),
+					%s("summary",{children: "Astrify v" + Spicetify.Config.version + " (dev by Varq)"}),
+					%s("li",{children: "Developer: Varq"}),
+					%s("li",{children: "Discord: http://discord.gg/astria"}),
 					%s("li",{children: "Theme: " + Spicetify.Config.current_theme + (Spicetify.Config.color_scheme && " / ") + Spicetify.Config.color_scheme}),
 					%s("li",{children: "Extensions: " + Spicetify.Config.extensions.join(", ")}),
 					%s("li",{children: "Custom apps: " + Spicetify.Config.custom_apps.join(", ")}),
-					]}),`, submatches[0], submatches[1], submatches[1], submatches[1], submatches[1], submatches[1])
+					]}),`, submatches[0], submatches[1], submatches[1], submatches[1], submatches[1], submatches[1], submatches[1], submatches[1])
 			})
 		return content
 	})
 }
+

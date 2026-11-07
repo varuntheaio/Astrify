@@ -11,3 +11,7 @@ import "./popup.js";
 import "./topbar.js";
 import "./playbar.js";
 import "./update.js";
+
+// Re-export Astrify as an alias to Spicetify for backward and forward compatibility
+window.Astrify = window.Spicetify;
+globalThis.Astrify = globalThis.Spicetify;

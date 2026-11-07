@@ -13,7 +13,9 @@ function getManifest(app) {
   if (manifestCache.has(app)) return manifestCache.get(app);
 
   manifestCache.set(app, {});
-  fetch(`spicetify-routes-${app}.json`)
+  fetch(`astrify-routes-${app}.json`)
+    .then((res) => (res.ok ? res : fetch(`spicetify-routes-${app}.json`)))
+    .catch(() => fetch(`spicetify-routes-${app}.json`))
     .then((res) => res.json())
     .then((manifest) => {
       manifestCache.set(app, manifest);

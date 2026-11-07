@@ -1,4 +1,4 @@
-window.Spicetify = {
+window.Spicetify = window.Astrify = {
   Player: {
     addEventListener: (type, callback) => {
       if (!(type in Spicetify.Player.eventListeners)) {

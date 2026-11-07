@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"os"
 
-	spotifystatus "github.com/spicetify/cli/src/status/spotify"
+	spotifystatus "github.com/astrify/cli/src/status/spotify"
 
-	"github.com/spicetify/cli/src/backup"
-	"github.com/spicetify/cli/src/preprocess"
-	backupstatus "github.com/spicetify/cli/src/status/backup"
-	"github.com/spicetify/cli/src/utils"
+	"github.com/astrify/cli/src/backup"
+	"github.com/astrify/cli/src/preprocess"
+	backupstatus "github.com/astrify/cli/src/status/backup"
+	"github.com/astrify/cli/src/utils"
 )
 
 // Backup stores original apps packages, extracts them and preprocesses extracted apps' assets
@@ -17,8 +17,8 @@ import (
 func Backup(spicetifyVersion string, silent bool) {
 	if isAppX {
 		utils.PrintInfo(`You are using the Microsoft Store version of Spotify, which is only partly supported.
-Don't use the Microsoft Store version with Spicetify unless you absolutely CANNOT install Spotify from its installer.
-Modded Spotify cannot be launched using original Shortcut/Start menu tile. To correctly launch modified Spotify, make a desktop shortcut that executes "spicetify auto". After that, you can change its icon, pin it to the start menu or put it in the startup folder.`)
+Don't use the Microsoft Store version with Astrify unless you absolutely CANNOT install Spotify from its installer.
+Modded Spotify cannot be launched using original Shortcut/Start menu tile. To correctly launch modified Spotify, make a desktop shortcut that executes "astrify auto". After that, you can change its icon, pin it to the start menu or put it in the startup folder.`)
 		if !ReadAnswer("Continue backing up anyway?", false, true) {
 			os.Exit(1)
 		}
@@ -33,7 +33,7 @@ Modded Spotify cannot be launched using original Shortcut/Start menu tile. To co
 			clearBackup()
 		} else {
 			utils.PrintWarning(`After clearing backup, Spotify cannot be backed up again`)
-			utils.PrintInfo(`Please restore first then backup, run "spicetify restore backup" or re-install Spotify then run "spicetify backup"`)
+			utils.PrintInfo(`Please restore first then backup, run "astrify restore backup" or re-install Spotify then run "astrify backup"`)
 			os.Exit(1)
 		}
 	}
@@ -152,7 +152,7 @@ func clearBackup() {
 	spinner.Success("Cleared current backup")
 }
 
-// Restore uses backup to revert every changes made by Spicetify.
+// Restore uses backup to revert every change made by Astrify.
 func Restore() {
 	CheckStates()
 	spinner, _ := utils.Spinner.Start("Restoring Spotify")

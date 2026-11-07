@@ -2407,3 +2407,6 @@ declare namespace Spicetify {
 		function toLocaleUpperCase(text: string): string;
 	}
 }
+
+
+declare const Astrify: typeof Spicetify;

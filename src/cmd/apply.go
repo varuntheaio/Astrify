@@ -7,10 +7,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/spicetify/cli/src/apply"
-	backupstatus "github.com/spicetify/cli/src/status/backup"
-	spotifystatus "github.com/spicetify/cli/src/status/spotify"
-	"github.com/spicetify/cli/src/utils"
+	"github.com/astrify/cli/src/apply"
+	backupstatus "github.com/astrify/cli/src/status/backup"
+	spotifystatus "github.com/astrify/cli/src/status/spotify"
+	"github.com/astrify/cli/src/utils"
 )
 
 // Apply .
@@ -19,7 +19,7 @@ func Apply(spicetifyVersion string) {
 
 	backupSpicetifyVersion := backupSection.Key("with").MustString("")
 	if spicetifyVersion != backupSpicetifyVersion {
-		utils.PrintInfo(`Preprocessed Spotify data is outdated. Please run "spicetify restore backup apply" to receive new features and bug fixes`)
+		utils.PrintInfo(`Preprocessed Spotify data is outdated. Please run "astrify restore backup apply" to receive new features and bug fixes`)
 		os.Exit(1)
 	}
 
@@ -74,7 +74,7 @@ func Apply(spicetifyVersion string) {
 		CurrentTheme:         settingSection.Key("current_theme").MustString(""),
 		ColorScheme:          settingSection.Key("color_scheme").MustString(""),
 		InjectThemeJS:        injectJS,
-		CheckSpicetifyUpdate: settingSection.Key("check_spicetify_update").MustBool(false),
+		CheckSpicetifyUpdate: false,
 		Extension:            extensionList,
 		CustomApp:            customAppsList,
 		SidebarConfig:        featureSection.Key("sidebar_config").MustBool(false),
@@ -194,9 +194,9 @@ func CheckStates() {
 
 	if backStat.IsEmpty() {
 		if spotStat.IsBackupable() {
-			utils.PrintError(`You haven't backed up. Run "spicetify backup apply"`)
+			utils.PrintError(`You haven't backed up. Run "astrify backup apply"`)
 		} else {
-			utils.PrintError(`You haven't backed up and Spotify cannot be backed up at this state. Please re-install Spotify then run "spicetify backup apply"`)
+			utils.PrintError(`You haven't backed up and Spotify cannot be backed up at this state. Please re-install Spotify then run "astrify backup apply"`)
 		}
 		os.Exit(1)
 
@@ -205,12 +205,12 @@ func CheckStates() {
 
 		if spotStat.IsMixed() {
 			utils.PrintInfo(`Spotify client possibly just had a new update`)
-			utils.PrintInfo(`Please run "spicetify backup apply"`)
+			utils.PrintInfo(`Please run "astrify backup apply"`)
 		} else if spotStat.IsStock() {
 			utils.PrintInfo(`Spotify client is in stock state`)
-			utils.PrintInfo(`Please run "spicetify backup apply"`)
+			utils.PrintInfo(`Please run "astrify backup apply"`)
 		} else {
-			utils.PrintInfo(`Spotify cannot be backed up at this state. Please re-install Spotify then run "spicetify backup apply"`)
+			utils.PrintInfo(`Spotify cannot be backed up at this state. Please re-install Spotify then run "astrify backup apply"`)
 		}
 
 		os.Exit(1)

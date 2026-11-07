@@ -23,7 +23,8 @@ var (
 			"replace_colors":         "1",
 			"overwrite_assets":       "0",
 			"spotify_launch_flags":   "",
-			"check_spicetify_update": "1",
+			"check_spicetify_update": "0",
+			"check_astrify_update":   "0",
 			"always_enable_devtools": "0",
 		},
 		"Preprocesses": {

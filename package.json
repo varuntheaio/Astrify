@@ -1,6 +1,8 @@
 {
-  "name": "@spicetify/cli",
+  "name": "@astrify/cli",
   "private": true,
+  "homepage": "http://discord.gg/astria",
+  "author": "Varq",
   "type": "module",
   "scripts": {
     "build:wrapper": "node scripts/build-wrapper.mjs",

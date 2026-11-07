@@ -3,6 +3,8 @@ bin
 cli
 spicetify
 spicetify-cli
+astrify
+astrify-cli
 *.exe
 
 # MacOS

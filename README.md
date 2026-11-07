@@ -1,33 +1,53 @@
-<h3 align="center"><a href="https://spicetify.app/"><img src="https://i.imgur.com/iwcLITQ.png" width="600px"></a></h3>
+<h1 align="center">Astrify CLI</h1>
 <p align="center">
-  <a href="https://goreportcard.com/report/github.com/spicetify/cli"><img src="https://goreportcard.com/badge/github.com/spicetify/cli"></a>
-  <a href="https://github.com/spicetify/cli/releases/latest"><img src="https://img.shields.io/github/release/spicetify/cli/all.svg?colorB=97CA00&label=latest%20version"></a>
-  <a href="https://github.com/spicetify/cli/releases"><img src="https://img.shields.io/github/downloads/spicetify/cli/total.svg?colorB=97CA00&label=total%20downloads"></a>
-  <a href="https://discord.gg/VnevqPp2Rr"><img src="https://img.shields.io/discord/842219447716151306?label=chat&logo=discord&logoColor=discord"></a>
+  <strong>Command-line tool to customize the official Spotify client.</strong><br>
+  Developed by <strong>Varq</strong> • Community Discord: <a href="http://discord.gg/astria">discord.gg/astria</a><br>
+  Supports Windows, macOS, and Linux. Compatible with existing Spicetify extensions and themes.
 </p>
 
 ---
 
-Command-line tool to customize the official Spotify client.
-Supports Windows, MacOS and Linux.
-
-<img src=".github/assets/logo.png" alt="img" align="right" width="560px" height="400px">
-
 ### Features
 
-- Change colors across the User Interface
-- Inject CSS for advanced customization
-- Inject Extensions to extend functionalities, manipulate UI and control player
-- Inject Custom Apps
-- Make yourself in control of the Spotify client
-
-### Links
-
-- [Installation](https://spicetify.app/docs/getting-started)
-- [Basic Usage](https://spicetify.app/docs/getting-started#basic-usage)
+- 🎨 **Change colors** across the Spotify user interface
+- 💅 **Inject CSS** for advanced customization
+- 🧩 **Inject Extensions** to add features, tweak UI, and control playback
+- 📱 **Inject Custom Apps** seamlessly into Spotify's navigation
+- 🛑 **No unwanted auto-updates** — automatic update checks and prompts are completely disabled
+- 🔄 **Full compatibility** with both Astrify and Spicetify ecosystem themes & extensions
+- ⚡ **Take complete control** of your Spotify desktop experience
 
 ---
 
-### Code Signing Policy
+### Basic Usage
 
-Free code signing provided by [SignPath.io](https://signpath.io), certificate by [SignPath Foundation](https://signpath.org/).
+```sh
+# Backup original Spotify assets
+astrify backup
+
+# Apply customizations, themes, and extensions
+astrify apply
+
+# Or apply automatically in one command
+astrify auto
+
+# Inspect or edit config
+astrify config
+
+# Change theme colors
+astrify color
+```
+
+---
+
+### JavaScript Runtime API
+
+Astrify exposes both `window.Astrify` and `window.Spicetify` in Spotify's runtime environment, ensuring 100% backward compatibility with all community extensions while providing a modern namespace for Astrify customizations.
+
+---
+
+### Credits & Community
+
+- **Developer**: Varq
+- **Discord Server**: [http://discord.gg/astria](http://discord.gg/astria)
+- Built upon the open-source foundation of the Spicetify project.

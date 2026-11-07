@@ -1,4 +1,4 @@
-module github.com/spicetify/cli
+module github.com/astrify/cli
 
 go 1.26.0
 

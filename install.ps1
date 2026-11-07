@@ -1,10 +1,15 @@
+# Astrify CLI Installer
+# Developed by Varq
+# Discord: http://discord.gg/astria
+
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 #region Variables
+$astrifyFolderPath = "$env:LOCALAPPDATA\astrify"
 $spicetifyFolderPath = "$env:LOCALAPPDATA\spicetify"
-$spicetifyOldFolderPath = "$HOME\spicetify-cli"
+$astrifyOldFolderPath = "$HOME\astrify-cli"
 #endregion Variables
 
 #region Functions
@@ -48,20 +53,20 @@ function Test-PowerShellVersion {
   }
 }
 
-function Move-OldSpicetifyFolder {
+function Move-OldAstrifyFolder {
   [CmdletBinding()]
   param ()
   process {
-    if (Test-Path -Path $spicetifyOldFolderPath) {
-      Write-Host -Object 'Moving the old spicetify folder...' -NoNewline
-      Copy-Item -Path "$spicetifyOldFolderPath\*" -Destination $spicetifyFolderPath -Recurse -Force
-      Remove-Item -Path $spicetifyOldFolderPath -Recurse -Force
+    if (Test-Path -Path $astrifyOldFolderPath) {
+      Write-Host -Object 'Moving the old astrify folder...' -NoNewline
+      Copy-Item -Path "$astrifyOldFolderPath\*" -Destination $astrifyFolderPath -Recurse -Force
+      Remove-Item -Path $astrifyOldFolderPath -Recurse -Force
       Write-Success
     }
   }
 }
 
-function Get-Spicetify {
+function Get-Astrify {
   [CmdletBinding()]
   param ()
   begin {
@@ -79,23 +84,23 @@ function Get-Spicetify {
         $targetVersion = $v
       }
       else {
-        Write-Warning -Message "You have specified an invalid spicetify version: $v `nThe version must be in the following format: 1.2.3"
+        Write-Warning -Message "You have specified an invalid astrify version: $v `nThe version must be in the following format: 1.2.3"
         Pause
         exit
       }
     }
     else {
-      Write-Host -Object 'Fetching the latest spicetify version...' -NoNewline
-      $latestRelease = Invoke-RestMethod -Uri 'https://api.github.com/repos/spicetify/cli/releases/latest'
+      Write-Host -Object 'Fetching the latest astrify version...' -NoNewline
+      $latestRelease = Invoke-RestMethod -Uri 'https://api.github.com/repos/astrify/cli/releases/latest'
       $targetVersion = $latestRelease.tag_name -replace 'v', ''
       Write-Success
     }
-    $archivePath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "spicetify.zip")
+    $archivePath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "astrify.zip")
   }
   process {
-    Write-Host -Object "Downloading spicetify v$targetVersion..." -NoNewline
+    Write-Host -Object "Downloading astrify v$targetVersion..." -NoNewline
     $Parameters = @{
-      Uri            = "https://github.com/spicetify/cli/releases/download/v$targetVersion/spicetify-$targetVersion-windows-$architecture.zip"
+      Uri            = "https://github.com/astrify/cli/releases/download/v$targetVersion/astrify-$targetVersion-windows-$architecture.zip"
       UseBasicParsin = $true
       OutFile        = $archivePath
     }
@@ -107,45 +112,45 @@ function Get-Spicetify {
   }
 }
 
-function Add-SpicetifyToPath {
+function Add-AstrifyToPath {
   [CmdletBinding()]
   param ()
   begin {
-    Write-Host -Object 'Making spicetify available in the PATH...' -NoNewline
+    Write-Host -Object 'Making astrify available in the PATH...' -NoNewline
     $user = [EnvironmentVariableTarget]::User
     $path = [Environment]::GetEnvironmentVariable('PATH', $user)
   }
   process {
-    $path = $path -replace "$([regex]::Escape($spicetifyOldFolderPath))\\*;*", ''
-    if ($path -notlike "*$spicetifyFolderPath*") {
-      $path = "$path;$spicetifyFolderPath"
+    $path = $path -replace "$([regex]::Escape($astrifyOldFolderPath))\\*;*", ''
+    if ($path -notlike "*$astrifyFolderPath*") {
+      $path = "$path;$astrifyFolderPath"
     }
   }
   end {
     [Environment]::SetEnvironmentVariable('PATH', $path, $user)
-    if (($env:PATH -split ';') -notcontains $spicetifyFolderPath) {
-      $env:PATH = "$env:PATH;$spicetifyFolderPath"
+    if (($env:PATH -split ';') -notcontains $astrifyFolderPath) {
+      $env:PATH = "$env:PATH;$astrifyFolderPath"
     }
     Write-Success
   }
 }
 
-function Install-Spicetify {
+function Install-Astrify {
   [CmdletBinding()]
   param ()
   begin {
-    Write-Host -Object 'Installing spicetify...'
+    Write-Host -Object 'Installing astrify...'
   }
   process {
-    $archivePath = Get-Spicetify
-    Write-Host -Object 'Extracting spicetify...' -NoNewline
-    Expand-Archive -Path $archivePath -DestinationPath $spicetifyFolderPath -Force
+    $archivePath = Get-Astrify
+    Write-Host -Object 'Extracting astrify...' -NoNewline
+    Expand-Archive -Path $archivePath -DestinationPath $astrifyFolderPath -Force
     Write-Success
-    Add-SpicetifyToPath
+    Add-AstrifyToPath
   }
   end {
     Remove-Item -Path $archivePath -Force -ErrorAction 'SilentlyContinue'
-    Write-Host -Object 'spicetify was successfully installed!' -ForegroundColor 'Green'
+    Write-Host -Object 'astrify was successfully installed!' -ForegroundColor 'Green'
   }
 }
 #endregion Functions
@@ -176,7 +181,7 @@ if (-not (Test-Admin)) {
   )
   $choice = $Host.UI.PromptForChoice('', 'Do you want to abort the installation process?', $choices, 0)
   if ($choice -eq 0) {
-    Write-Host -Object 'spicetify installation aborted' -ForegroundColor 'Yellow'
+    Write-Host -Object 'astrify installation aborted' -ForegroundColor 'Yellow'
     Pause
     exit
   }
@@ -186,55 +191,55 @@ else {
 }
 #endregion Checks
 
-#region Spicetify
-$installedSpicetify = Join-Path -Path $spicetifyFolderPath -ChildPath 'spicetify.exe'
-if (-not (Test-Path -LiteralPath $installedSpicetify -PathType Leaf)) {
-  $installedCommand = Get-Command -Name 'spicetify' -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+#region Astrify
+$installedAstrify = Join-Path -Path $astrifyFolderPath -ChildPath 'astrify.exe'
+if (-not (Test-Path -LiteralPath $installedAstrify -PathType Leaf)) {
+  $installedCommand = Get-Command -Name 'astrify' -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
   if ($installedCommand) {
-    $installedSpicetify = $installedCommand.Source
+    $installedAstrify = $installedCommand.Source
   }
   else {
-    $installedSpicetify = $null
+    $installedAstrify = $null
   }
 }
 
-if ($installedSpicetify) {
+if ($installedAstrify) {
   $Host.UI.RawUI.Flushinputbuffer()
   $choices = [System.Management.Automation.Host.ChoiceDescription[]] @(
-    (New-Object System.Management.Automation.Host.ChoiceDescription '&Yes', 'Run spicetify update.'),
+    (New-Object System.Management.Automation.Host.ChoiceDescription '&Yes', 'Run astrify update.'),
     (New-Object System.Management.Automation.Host.ChoiceDescription '&No', 'Continue with installation.')
   )
-  $choice = $Host.UI.PromptForChoice('', 'Spicetify is already installed. Do you want to fix your installation?', $choices, 0)
+  $choice = $Host.UI.PromptForChoice('', 'Astrify is already installed. Do you want to fix your installation?', $choices, 0)
   if ($choice -eq 0) {
-    & $installedSpicetify update
+    & $installedAstrify update
     if ($LASTEXITCODE -ne 0) {
-      throw "Spicetify update failed with exit code $LASTEXITCODE."
+      throw "Astrify update failed with exit code $LASTEXITCODE."
     }
     return
   }
 }
 
-Move-OldSpicetifyFolder
-Install-Spicetify
+Move-OldAstrifyFolder
+Install-Astrify
 Write-Host -Object "`nRun" -NoNewline
-Write-Host -Object ' spicetify -h ' -NoNewline -ForegroundColor 'Cyan'
+Write-Host -Object ' astrify -h ' -NoNewline -ForegroundColor 'Cyan'
 Write-Host -Object 'to get started'
-#endregion Spicetify
+#endregion Astrify
 
 #region Marketplace
 $Host.UI.RawUI.Flushinputbuffer()
 $choices = [System.Management.Automation.Host.ChoiceDescription[]] @(
-    (New-Object System.Management.Automation.Host.ChoiceDescription "&Yes", "Install Spicetify Marketplace."),
-    (New-Object System.Management.Automation.Host.ChoiceDescription "&No", "Do not install Spicetify Marketplace.")
+    (New-Object System.Management.Automation.Host.ChoiceDescription "&Yes", "Install Astrify Marketplace."),
+    (New-Object System.Management.Automation.Host.ChoiceDescription "&No", "Do not install Astrify Marketplace.")
 )
-$choice = $Host.UI.PromptForChoice('', "`nDo you also want to install Spicetify Marketplace? It will become available within the Spotify client, where you can easily install themes and extensions.", $choices, 0)
+$choice = $Host.UI.PromptForChoice('', "`nDo you also want to install Astrify Marketplace? It will become available within the Spotify client, where you can easily install themes and extensions.", $choices, 0)
 if ($choice -eq 1) {
-  Write-Host -Object 'spicetify Marketplace installation aborted' -ForegroundColor 'Yellow'
+  Write-Host -Object 'astrify Marketplace installation aborted' -ForegroundColor 'Yellow'
 }
 else {
-  Write-Host -Object 'Starting the spicetify Marketplace installation script..'
+  Write-Host -Object 'Starting the astrify Marketplace installation script..'
   $Parameters = @{
-    Uri             = 'https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.ps1'
+    Uri             = 'https://raw.githubusercontent.com/astrify/astrify-marketplace/main/resources/install.ps1'
     UseBasicParsing = $true
   }
   Invoke-WebRequest @Parameters | Invoke-Expression

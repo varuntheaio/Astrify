@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"github.com/spicetify/cli/src/utils"
+	"github.com/astrify/cli/src/utils"
 )
 
 type compiledPatch struct {

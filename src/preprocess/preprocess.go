@@ -17,7 +17,7 @@ import (
 	"sync"
 
 	"github.com/pterm/pterm"
-	"github.com/spicetify/cli/src/utils"
+	"github.com/astrify/cli/src/utils"
 )
 
 const legacyFixedWidthGridCSS = `.main-gridContainer-gridContainer.main-gridContainer-fixedWidth{grid-template-columns:repeat(auto-fill,var(--column-width,minmax(var(--min-column-width),1fr)))}`
@@ -1141,7 +1141,7 @@ func validateReleaseBuild(spotifyBinaryPath string) error {
 
 	buildType := string(matches[1])
 	if buildType != "Release" {
-		return fmt.Errorf("detected %s Spotify build! spicetify works only on Release builds. Please install latest Release version of Spotify", buildType)
+		return fmt.Errorf("detected %s Spotify build! astrify works only on Release builds. Please install latest Release version of Spotify", buildType)
 	}
 
 	utils.PrintSuccess(fmt.Sprintf("Spotify's build type is %s. Continuing...", string(matches[1])))

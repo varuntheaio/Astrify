@@ -14,10 +14,10 @@ import (
 
 	colorable "github.com/mattn/go-colorable"
 	"github.com/pterm/pterm"
-	"github.com/spicetify/cli/src/cmd"
-	spotifystatus "github.com/spicetify/cli/src/status/spotify"
-	"github.com/spicetify/cli/src/utils"
-	"github.com/spicetify/cli/src/utils/isAdmin"
+	"github.com/astrify/cli/src/cmd"
+	spotifystatus "github.com/astrify/cli/src/status/spotify"
+	"github.com/astrify/cli/src/utils"
+	"github.com/astrify/cli/src/utils/isAdmin"
 )
 
 var (
@@ -122,7 +122,7 @@ func init() {
 	}
 
 	if isAdmin.Check(bypassAdminCheck) {
-		utils.PrintError("Spicetify should NOT be run with administrator or root privileges")
+		utils.PrintError("Astrify should NOT be run with administrator or root privileges")
 		utils.PrintError("Doing so can cause Spotify to show a black/blank window after applying!")
 		utils.PrintError("This happens because Spotify (running as a normal user) can't access files modified with admin privileges")
 		utils.PrintInfo("If you understand the risks and need to continue, you can use the '--bypass-admin' flag.")
@@ -142,8 +142,7 @@ func init() {
 
 	if len(commands) < 1 {
 		help()
-		cmd.CheckUpdate(version)
-		os.Exit(0)
+				os.Exit(0)
 	}
 }
 
@@ -361,7 +360,7 @@ func main() {
 
 		default:
 			utils.Fatal(errors.New(`Command "` + v + `" not found.
-Run "spicetify -h" for a list of valid commands.`))
+Run "astrify -h" for a list of valid commands.`))
 		}
 	}
 
@@ -371,10 +370,11 @@ Run "spicetify -h" for a list of valid commands.`))
 }
 
 func help() {
-	utils.PrintBold("spicetify v" + version)
+	utils.PrintBold("Astrify v" + version + " — Developed by Varq")
+	utils.PrintInfo("Discord: http://discord.gg/astria")
 	log.Println(utils.Bold("USAGE") + "\n" +
-		"spicetify [-q] [-e] [-a] \x1B[4mcommand\033[0m...\n" +
-		"spicetify {-c | --config} | {-v | --version} | {-h | --help}\n\n" +
+		"astrify [-q] [-e] [-a] \x1B[4mcommand\033[0m...\n" +
+		"astrify {-c | --config} | {-v | --version} | {-h | --help}\n\n" +
 		utils.Bold("DESCRIPTION") + "\n" +
 		"Customize Spotify client UI and functionality\n\n" +
 		utils.Bold("CHAINABLE COMMANDS") + `
@@ -408,16 +408,16 @@ spotify-updates     Block Spotify updates by patching spotify executable.
 
 path                Print path of Spotify's executable, userdata, and more.
                     1. Print executable path:
-                    spicetify path
+                    astrify path
 
                     2. Print userdata path:
-                    spicetify path userdata
+                    astrify path userdata
 
                     3. Print all paths:
-                    spicetify path all
+                    astrify path all
 
                     4. Toggle focus with flags:
-                    spicetify path <flag> <option>
+                    astrify path <flag> <option>
 
                     Available flags and options:
                     "-e" (for extensions),
@@ -433,17 +433,17 @@ path                Print path of Spotify's executable, userdata, and more.
                     options: N/A.
 
 config              1. Print all config fields and values:
-                    spicetify config
+                    astrify config
 
                     2. Print one config field's value:
-                    spicetify config <field>
+                    astrify config <field>
 
                     Example usage:
-                    spicetify config color_scheme
-                    spicetify config custom_apps
+                    astrify config color_scheme
+                    astrify config custom_apps
 
                     3. Change value of one or multiple config fields.
-                    spicetify config <field> <value> [<field> <value> ...]
+                    astrify config <field> <value> [<field> <value> ...]
 
                     "extensions" and "custom_apps" fields are arrays of values,
                     so <value> will be appended to those fields' current value.
@@ -451,34 +451,34 @@ config              1. Print all config fields and values:
 
                     Example usage:
                     - Enable "disable_sentry" preprocess:
-                    spicetify config disable_sentry 1
+                    astrify config disable_sentry 1
                     - Add extension "myFakeExt.js" to current extensions list:
-                    spicetify config extensions myFakeExt.js
+                    astrify config extensions myFakeExt.js
                     - Remove extension "wrongname.js" from extensions list:
-                    spicetify config extensions wrongname.js-
+                    astrify config extensions wrongname.js-
                     - Disable "inject_css" and enable "song_page"
-                    spicetify config inject_css 0 song_page 1
+                    astrify config inject_css 0 song_page 1
 
 color               1. Print all color fields and values.
-                    spicetify color
+                    astrify color
 
                     Color boxes require 24-bit color (True color) supported
                     terminal to show colors correctly.
 
                     2. Change theme's one or multiple color values.
-                    spicetify color <field> <value> [<field> <value> ...]
+                    astrify color <field> <value> [<field> <value> ...]
 
                     <value> can be in hex or decimal (rrr,ggg,bbb) format.
 
                     Example usage:
                     - Change main to ff0000
-                    spicetify color main ff0000
+                    astrify color main ff0000
                     - Change sidebar to 00ff00 and button to 0000ff
-                    spicetify color sidebar 00ff00 button 0000ff
+                    astrify color sidebar 00ff00 button 0000ff
 
 config-dir          Show config directory in file viewer
 
-upgrade|update      Update spicetify to the latest version if an update is available
+upgrade|update      Update astrify to the latest version if an update is available
 
 ` + utils.Bold("FLAGS") + `
 -q, --quiet         Quiet mode (no output).
@@ -508,8 +508,8 @@ upgrade|update      Update spicetify to the latest version if an update is avail
 
 -v, --version       Print version number and quit
 
-For config information, run "spicetify -h config".
-For more information and reporting bugs: https://github.com/spicetify/cli/`)
+For config information, run "astrify -h config".
+Developed by Varq | Discord: http://discord.gg/astria`)
 }
 
 func helpConfig() {
@@ -541,14 +541,14 @@ spotify_launch_flags <string>
     Command-line flags used when launching/restarting Spotify.
     Separate each flag with "|".
     To set flags from the CLI, place "--" before the value.
-    Example: spicetify config spotify_launch_flags -- "--flag-1|--flag-2"
+    Example: astrify config spotify_launch_flags -- "--flag-1|--flag-2"
     List of valid flags: https://spicetify.app/docs/development/spotify-cli-flags
 
 always_enable_devtools <0 | 1>
     Whether Chrome DevTools is enabled when launching/restarting Spotify.
 
 check_spicetify_update <0 | 1>
-    Whether to always check for updates when running Spicetify.
+    Whether to always check for updates when running Astrify.
 
 ` + utils.Bold("[Preprocesses]") + `
 disable_sentry <0 | 1>
@@ -565,7 +565,7 @@ remove_rtl_rule <0 | 1>
     Enable to remove all of them and improve render speed.
 
 expose_apis <0 | 1>
-    Leaks some Spotify's API, functions, objects to Spicetify global object that
+    Leaks some Spotify's API, functions, objects to Astrify / Spicetify global object that
     are useful for making extensions to extend Spotify functionality.
 
 ` + utils.Bold("[AdditionalOptions]") + `
