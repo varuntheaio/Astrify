@@ -6,6 +6,7 @@ spicetify-cli
 astrify
 astrify-cli
 *.exe
+*.zip
 push.bat
 
 # MacOS
