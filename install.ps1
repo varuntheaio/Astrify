@@ -91,7 +91,7 @@ function Get-Astrify {
     }
     else {
       Write-Host -Object 'Fetching the latest astrify version...' -NoNewline
-      $latestRelease = Invoke-RestMethod -Uri 'https://api.github.com/repos/astrify/cli/releases/latest'
+      $latestRelease = Invoke-RestMethod -Uri 'https://api.github.com/repos/varuntheaio/Astrify/releases/latest'
       $targetVersion = $latestRelease.tag_name -replace 'v', ''
       Write-Success
     }
@@ -100,7 +100,7 @@ function Get-Astrify {
   process {
     Write-Host -Object "Downloading astrify v$targetVersion..." -NoNewline
     $Parameters = @{
-      Uri            = "https://github.com/astrify/cli/releases/download/v$targetVersion/astrify-$targetVersion-windows-$architecture.zip"
+      Uri            = "https://github.com/varuntheaio/Astrify/releases/download/v$targetVersion/astrify-$targetVersion-windows-$architecture.zip"
       UseBasicParsin = $true
       OutFile        = $archivePath
     }
