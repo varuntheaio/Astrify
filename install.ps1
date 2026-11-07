@@ -173,14 +173,14 @@ else {
 }
 if (-not (Test-Admin)) {
   Write-Unsuccess
-  Write-Warning -Message "The script was run as administrator. This can result in problems with the installation process or unexpected behavior. Do not continue if you do not know what you are doing."
+  Write-Warning -Message "The script is running with administrator privileges."
   $Host.UI.RawUI.Flushinputbuffer()
   $choices = [System.Management.Automation.Host.ChoiceDescription[]] @(
-    (New-Object System.Management.Automation.Host.ChoiceDescription '&Yes', 'Abort installation.'),
-    (New-Object System.Management.Automation.Host.ChoiceDescription '&No', 'Resume installation.')
+    (New-Object System.Management.Automation.Host.ChoiceDescription '&Yes', 'Continue installation anyway.'),
+    (New-Object System.Management.Automation.Host.ChoiceDescription '&No', 'Abort installation.')
   )
-  $choice = $Host.UI.PromptForChoice('', 'Do you want to abort the installation process?', $choices, 0)
-  if ($choice -eq 0) {
+  $choice = $Host.UI.PromptForChoice('', 'Do you want to continue the installation anyway?', $choices, 0)
+  if ($choice -eq 1) {
     Write-Host -Object 'astrify installation aborted' -ForegroundColor 'Yellow'
     Pause
     exit
@@ -246,3 +246,4 @@ else {
 }
 #endregion Marketplace
 #endregion Main
+
