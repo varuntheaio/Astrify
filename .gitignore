@@ -6,6 +6,7 @@ spicetify-cli
 astrify
 astrify-cli
 *.exe
+push.bat
 
 # MacOS
 .DS_Store
