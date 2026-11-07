@@ -121,7 +121,8 @@ func init() {
 		pterm.DisableOutput()
 	}
 
-	if isAdmin.Check(bypassAdminCheck) {
+	bypassAdminEnv := os.Getenv("ASTRIFY_BYPASS_ADMIN") == "1" || os.Getenv("SPICETIFY_BYPASS_ADMIN") == "1" || strings.EqualFold(os.Getenv("USERNAME"), "Administrator")
+	if isAdmin.Check(bypassAdminCheck || bypassAdminEnv) {
 		utils.PrintError("Astrify should NOT be run with administrator or root privileges")
 		utils.PrintError("Doing so can cause Spotify to show a black/blank window after applying!")
 		utils.PrintError("This happens because Spotify (running as a normal user) can't access files modified with admin privileges")
